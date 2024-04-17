@@ -30,9 +30,13 @@ NTSTATUS lock_proc(HANDLE pid) {
                         ExAllocatePoolWithTag(PagedPool,
                                 sizeof(lock_proc_entry), 0x1337);
 
-                if (curr != NULL) curr->pid = pid;
-                PushEntryList(lock_proc_list, &curr->next);
+                if (curr != NULL)
+                {
+                        curr->pid = pid;
+                        PushEntryList(lock_proc_list, &curr->next);
+                }
 
+                return STATUS_SUCCESS;
         }
 }
 
