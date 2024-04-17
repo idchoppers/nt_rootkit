@@ -130,13 +130,13 @@
     <FilesToPackage Include="$(TargetPath)" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="callback.c" />
+    <ClCompile Include="lock_proc.c" />
     <ClCompile Include="dkom.c" />
     <ClCompile Include="driver.c" />
     <ClCompile Include="ioctl.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="callback.h" />
+    <ClInclude Include="lock_proc.h" />
     <ClInclude Include="dkom.h" />
     <ClInclude Include="ioctl.h" />
   </ItemGroup>

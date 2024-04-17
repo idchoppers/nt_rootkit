@@ -25,7 +25,7 @@
     <ClCompile Include="dkom.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="callback.c">
+    <ClCompile Include="lock_proc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ioctl.c">
@@ -36,7 +36,7 @@
     <ClInclude Include="dkom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="callback.h">
+    <ClInclude Include="lock_proc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ioctl.h">

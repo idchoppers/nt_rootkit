@@ -6,7 +6,7 @@
 
 #include <ntddk.h>
 #include "dkom.h"
-#include "callback.h"
+#include "lock_proc.h"
 //#include "idt.h"
 //#include "ssdt.h"
 

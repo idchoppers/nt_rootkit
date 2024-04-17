@@ -1,12 +1,12 @@
 /*
-        callback.h
+        lock_proc.h
 
         Use kernel mode callbacks to accomplish what would have been
         done using SSDT hooking or IDT hooking in older Windows versions.
 */
 
-#ifndef _CALLBACK_H_
-#define _CALLBACK_H_
+#ifndef _LOCK_PROC_H_
+#define _LOCK_PROC_H_
 
 #include <ntddk.h>
 
@@ -34,13 +34,15 @@
 #define PROCESS_SUSPEND_RESUME             (0x0800)  
 #define PROCESS_SET_LIMITED_INFORMATION    (0x2000)
 
-typedef struct prot_proc_entry {
+typedef struct lock_proc_entry {
         HANDLE pid;
         SINGLE_LIST_ENTRY next;
-} prot_proc_entry;
+} lock_proc_entry;
+
+NTSTATUS lock_proc(HANDLE pid);
 
 OB_PREOP_CALLBACK_STATUS obj_pre_callback(PVOID RegistrationContext,
-        POB_PRE_OPERATION_INFORMATION OperationInformation);
+        POB_PRE_OPERATION_INFORMATION op_info);
 
 NTSTATUS reg_callback();
 

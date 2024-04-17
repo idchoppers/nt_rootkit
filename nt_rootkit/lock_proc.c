@@ -1,13 +1,40 @@
 /*
-        callback.c
+        lock_proc.c
 
-        Implements kernel mode callbacks for process protections.
+        Implements kernel mode callbacks for process locking.
 */
 
-#include "callback.h"
+#include "lock_proc.h"
 
-SINGLE_LIST_ENTRY* prot_proc = NULL;
+SINGLE_LIST_ENTRY* lock_proc_list = NULL;
 PVOID callbacks = NULL;
+
+NTSTATUS lock_proc(HANDLE pid) {
+        if (lock_proc_list == NULL)
+        {
+                lock_proc_entry* curr = (lock_proc_entry*)
+                        ExAllocatePoolWithTag(PagedPool,
+                                sizeof(lock_proc_entry), 0x1337);
+                
+                if (curr != NULL)
+                {
+                        curr->pid = pid;
+                        lock_proc_list = &curr->next;
+                }
+
+                return STATUS_SUCCESS;
+        }
+        else
+        {
+                lock_proc_entry* curr = (lock_proc_entry*)
+                        ExAllocatePoolWithTag(PagedPool,
+                                sizeof(lock_proc_entry), 0x1337);
+
+                if (curr != NULL) curr->pid = pid;
+                PushEntryList(lock_proc_list, &curr->next);
+
+        }
+}
 
 OB_PREOP_CALLBACK_STATUS obj_pre_callback(PVOID RegistrationContext,
         POB_PRE_OPERATION_INFORMATION op_info) {
@@ -16,13 +43,17 @@ OB_PREOP_CALLBACK_STATUS obj_pre_callback(PVOID RegistrationContext,
         if (op_info->ObjectType == *PsProcessType &&
                 op_info->Object != PsGetCurrentProcess())
         {
-                SINGLE_LIST_ENTRY* curr = prot_proc;
+                SINGLE_LIST_ENTRY* curr = lock_proc_list;
                 while (curr != NULL)
                 {
-                        HANDLE pid = PsGetProcessId(
-                                (PEPROCESS)op_info->Operation);
+                        HANDLE pid = NULL;
+                        if (op_info->Operation != 0)
+                        {
+                                pid = PsGetProcessId(
+                                        (PEPROCESS)op_info->Operation);
+                        }
 
-                        if (CONTAINING_RECORD(curr, prot_proc_entry, next)->pid
+                        if (CONTAINING_RECORD(curr, lock_proc_entry, next)->pid
                                 == pid && op_info->Operation
                                 == OB_OPERATION_HANDLE_CREATE && 
                                 op_info->KernelHandle != TRUE)
@@ -38,10 +69,10 @@ OB_PREOP_CALLBACK_STATUS obj_pre_callback(PVOID RegistrationContext,
                 HANDLE pid = PsGetThreadProcessId((PETHREAD)op_info->Object);
                 if (pid != PsGetCurrentProcessId()) return OB_PREOP_SUCCESS;
 
-                SINGLE_LIST_ENTRY* curr = prot_proc;
+                SINGLE_LIST_ENTRY* curr = lock_proc_list;
                 while (curr != NULL)
                 {
-                        if (CONTAINING_RECORD(curr, prot_proc_entry, next)->pid
+                        if (CONTAINING_RECORD(curr, lock_proc_entry, next)->pid
                                 == pid && op_info->Operation
                                 == OB_OPERATION_HANDLE_CREATE &&
                                 op_info->KernelHandle != TRUE)
