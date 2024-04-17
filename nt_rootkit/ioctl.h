@@ -3,6 +3,6 @@
 
 #include <ntddk.h>
 
-
+/* TODO: IRP IOCTL defenitions! */
 
 #endif
