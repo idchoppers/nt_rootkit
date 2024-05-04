@@ -31,6 +31,9 @@
     <ClCompile Include="ioctl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="lock_key.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dkom.h">
@@ -40,6 +43,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ioctl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lock_key.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

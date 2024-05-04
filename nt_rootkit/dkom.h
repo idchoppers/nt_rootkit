@@ -11,6 +11,10 @@
 
 #include <ntddk.h>
 
+#define PID_OFFSET              (0x440)
+#define PROC_LINKS_OFFSET       (0x448)
+#define TOKEN_OFFSET            (0x4b8)
+
 /*
         Unlinks a LIST_ENTRY field in an EPROCESS
         from the process list.

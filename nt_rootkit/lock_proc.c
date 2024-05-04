@@ -91,7 +91,7 @@ OB_PREOP_CALLBACK_STATUS obj_pre_callback(PVOID RegistrationContext,
         return OB_PREOP_SUCCESS;
 }
 
-NTSTATUS reg_callback() {
+NTSTATUS reg_proc_callback() {
         OB_CALLBACK_REGISTRATION ob_reg;
         OB_OPERATION_REGISTRATION op_reg[2] = {NULL};
 

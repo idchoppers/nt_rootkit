@@ -44,7 +44,7 @@ NTSTATUS lock_proc(HANDLE pid);
 OB_PREOP_CALLBACK_STATUS obj_pre_callback(PVOID RegistrationContext,
         POB_PRE_OPERATION_INFORMATION op_info);
 
-NTSTATUS reg_callback();
+NTSTATUS reg_proc_callback();
 
 NTSTATUS free_proc_filter();
 
