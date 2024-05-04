@@ -1,9 +1,9 @@
 /*
-        lock_proc.h
-
-        Use kernel mode callbacks to accomplish what would have been
-        done using SSDT hooking or IDT hooking in older Windows versions.
-*/
+ * lock_proc.h
+ * 
+ * Description: Use kernel mode callbacks to accomplish what would have
+ * been done using SSDT hooking or IDT hooking in older Windows versions.
+ */
 
 #ifndef _LOCK_PROC_H_
 #define _LOCK_PROC_H_
@@ -33,6 +33,9 @@
 #define PROCESS_SET_INFORMATION            (0x0200)  
 #define PROCESS_SUSPEND_RESUME             (0x0800)  
 #define PROCESS_SET_LIMITED_INFORMATION    (0x2000)
+
+SINGLE_LIST_ENTRY* lock_proc_list = NULL;
+PVOID callbacks = NULL;
 
 typedef struct lock_proc_entry {
         HANDLE pid;

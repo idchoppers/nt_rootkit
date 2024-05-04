@@ -1,13 +1,10 @@
 /*
-        lock_proc.c
-
-        Implements kernel mode callbacks for process locking.
-*/
+ * lock_proc.c
+ * 
+ * Description: Implements kernel mode callbacks for process locking.
+ */
 
 #include "lock_proc.h"
-
-SINGLE_LIST_ENTRY* lock_proc_list = NULL;
-PVOID callbacks = NULL;
 
 NTSTATUS lock_proc(HANDLE pid)
 {

