@@ -8,11 +8,13 @@
 #include "dkom.h"
 #include "lock_proc.h"
 
-void driver_unload(PDRIVER_OBJECT driver_obj) {
+void driver_unload(PDRIVER_OBJECT driver_obj)
+{
         UNREFERENCED_PARAMETER(driver_obj);
 }
 
-NTSTATUS DriverEntry(PDRIVER_OBJECT driver_obj, PUNICODE_STRING reg_path) {
+NTSTATUS DriverEntry(PDRIVER_OBJECT driver_obj, PUNICODE_STRING reg_path)
+{
         UNREFERENCED_PARAMETER(reg_path);
 
         driver_obj->DriverUnload = driver_unload;

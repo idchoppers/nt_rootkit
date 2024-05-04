@@ -9,7 +9,8 @@
 SINGLE_LIST_ENTRY* lock_proc_list = NULL;
 PVOID callbacks = NULL;
 
-NTSTATUS lock_proc(HANDLE pid) {
+NTSTATUS lock_proc(HANDLE pid)
+{
         if (lock_proc_list == NULL) {
                 lock_proc_entry* curr = (lock_proc_entry*)
                         ExAllocatePoolWithTag(PagedPool,
@@ -35,7 +36,8 @@ NTSTATUS lock_proc(HANDLE pid) {
 }
 
 OB_PREOP_CALLBACK_STATUS obj_pre_callback(PVOID RegistrationContext,
-        POB_PRE_OPERATION_INFORMATION op_info) {
+        POB_PRE_OPERATION_INFORMATION op_info)
+{
         UNREFERENCED_PARAMETER(RegistrationContext);
 
         if (op_info->ObjectType == *PsProcessType &&
@@ -81,7 +83,8 @@ OB_PREOP_CALLBACK_STATUS obj_pre_callback(PVOID RegistrationContext,
         return OB_PREOP_SUCCESS;
 }
 
-NTSTATUS reg_proc_callback() {
+NTSTATUS reg_proc_callback()
+{
         OB_CALLBACK_REGISTRATION ob_reg;
         OB_OPERATION_REGISTRATION op_reg[2] = {NULL};
 
@@ -106,7 +109,8 @@ NTSTATUS reg_proc_callback() {
         return ObRegisterCallbacks(&ob_reg, callbacks);
 }
 
-NTSTATUS free_proc_filter() {
+NTSTATUS free_proc_filter()
+{
         if (callbacks != NULL) {
                 ObUnRegisterCallbacks(callbacks);
                 callbacks = NULL;

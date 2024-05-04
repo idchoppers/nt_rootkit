@@ -1,6 +1,7 @@
 #include "dkom.h"
 
-NTSTATUS proc_unlink(UINT32 pid) {
+NTSTATUS proc_unlink(UINT32 pid)
+{
         if (!pid)
                 return STATUS_SUCCESS;
         //DbgPrint("Invalid PID!");
@@ -34,7 +35,8 @@ NTSTATUS proc_unlink(UINT32 pid) {
         return STATUS_SUCCESS;
 }
 
-NTSTATUS proc_set_pid(UINT32 pid) {
+NTSTATUS proc_set_pid(UINT32 pid)
+{
         if (!pid)
                 return STATUS_SUCCESS;
         //DbgPrint("Invalid PID!");
