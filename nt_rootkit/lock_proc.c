@@ -10,34 +10,28 @@ SINGLE_LIST_ENTRY* lock_proc_list = NULL;
 PVOID callbacks = NULL;
 
 NTSTATUS lock_proc(HANDLE pid) {
-        if (lock_proc_list == NULL)
-        {
+        if (lock_proc_list == NULL) {
                 lock_proc_entry* curr = (lock_proc_entry*)
                         ExAllocatePoolWithTag(PagedPool,
                                 sizeof(lock_proc_entry), 0x1337);
                 
-                if (curr != NULL)
-                {
+                if (curr != NULL) {
                         curr->pid = pid;
                         lock_proc_list = &curr->next;
                 }
-
-                return STATUS_SUCCESS;
         }
-        else
-        {
+        else {
                 lock_proc_entry* curr = (lock_proc_entry*)
                         ExAllocatePoolWithTag(PagedPool,
                                 sizeof(lock_proc_entry), 0x1337);
 
-                if (curr != NULL)
-                {
+                if (curr != NULL) {
                         curr->pid = pid;
                         PushEntryList(lock_proc_list, &curr->next);
                 }
-
-                return STATUS_SUCCESS;
         }
+
+        return STATUS_SUCCESS;
 }
 
 OB_PREOP_CALLBACK_STATUS obj_pre_callback(PVOID RegistrationContext,
@@ -45,17 +39,14 @@ OB_PREOP_CALLBACK_STATUS obj_pre_callback(PVOID RegistrationContext,
         UNREFERENCED_PARAMETER(RegistrationContext);
 
         if (op_info->ObjectType == *PsProcessType &&
-                op_info->Object != PsGetCurrentProcess())
-        {
+                op_info->Object != PsGetCurrentProcess()) {
+
                 SINGLE_LIST_ENTRY* curr = lock_proc_list;
-                while (curr != NULL)
-                {
+                while (curr != NULL) {
                         HANDLE pid = NULL;
                         if (op_info->Operation != 0)
-                        {
-                                pid = PsGetProcessId(
-                                        (PEPROCESS)op_info->Operation);
-                        }
+                                pid = PsGetProcessId((PEPROCESS)
+                                        op_info->Operation);
 
                         if (CONTAINING_RECORD(curr, lock_proc_entry, next)->pid
                                 == pid && op_info->Operation
@@ -68,14 +59,13 @@ OB_PREOP_CALLBACK_STATUS obj_pre_callback(PVOID RegistrationContext,
                         curr = curr->Next;
                 }
         }
-        else if (op_info->ObjectType == *PsThreadType)
-        {
+        else if (op_info->ObjectType == *PsThreadType) {
                 HANDLE pid = PsGetThreadProcessId((PETHREAD)op_info->Object);
-                if (pid != PsGetCurrentProcessId()) return OB_PREOP_SUCCESS;
+                if (pid != PsGetCurrentProcessId())
+                        return OB_PREOP_SUCCESS;
 
                 SINGLE_LIST_ENTRY* curr = lock_proc_list;
-                while (curr != NULL)
-                {
+                while (curr != NULL) {
                         if (CONTAINING_RECORD(curr, lock_proc_entry, next)->pid
                                 == pid && op_info->Operation
                                 == OB_OPERATION_HANDLE_CREATE &&
@@ -117,8 +107,7 @@ NTSTATUS reg_proc_callback() {
 }
 
 NTSTATUS free_proc_filter() {
-        if (callbacks != NULL)
-        {
+        if (callbacks != NULL) {
                 ObUnRegisterCallbacks(callbacks);
                 callbacks = NULL;
         }
