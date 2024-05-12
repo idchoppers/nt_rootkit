@@ -34,14 +34,6 @@
 #define PROCESS_SUSPEND_RESUME             (0x0800)  
 #define PROCESS_SET_LIMITED_INFORMATION    (0x2000)
 
-SINGLE_LIST_ENTRY* lock_proc_list = NULL;
-PVOID callbacks = NULL;
-
-typedef struct lock_proc_entry {
-        HANDLE pid;
-        SINGLE_LIST_ENTRY next;
-} lock_proc_entry;
-
 NTSTATUS lock_proc(HANDLE pid);
 
 OB_PREOP_CALLBACK_STATUS obj_pre_callback(PVOID RegistrationContext,

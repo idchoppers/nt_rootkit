@@ -1,14 +1,14 @@
+/*
+ * lock_key.h
+ * 
+ * Description: Defines the functions that allow for Registry Key locking.
+ */
+
 #ifndef _LOCK_KEY_H_
 #define _LOCK_KEY_H_
 
 #include <ntddk.h>
-
-LIST_ENTRY* lock_key_list = NULL;
-PLARGE_INTEGER cookie = NULL;
-
-typedef struct lock_key_entry {
-        PUNICODE_STRING key;
-} lock_key_entry;
+#include "ioctl.h"
 
 EX_CALLBACK_FUNCTION on_reg_notify;
 

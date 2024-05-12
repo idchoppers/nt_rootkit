@@ -6,6 +6,15 @@
 
 #include "lock_proc.h"
 
+/* Holds locked processes and callbacks. */
+SINGLE_LIST_ENTRY* lock_proc_list = NULL;
+PVOID callbacks = NULL;
+
+typedef struct lock_proc_entry {
+        HANDLE pid;
+        SINGLE_LIST_ENTRY next;
+} lock_proc_entry;
+
 NTSTATUS lock_proc(HANDLE pid)
 {
         if (lock_proc_list == NULL) {

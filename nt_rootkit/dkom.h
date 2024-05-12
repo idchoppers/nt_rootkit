@@ -2,7 +2,6 @@
  * dkom.h
  *
  * Description: Direct kernel object manipulation functions.
- * TDOD make params for proc operations use HANDLE inputs!
  */
 
 #ifndef _DKOM_H_
