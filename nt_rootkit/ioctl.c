@@ -8,8 +8,15 @@
 
 NTSTATUS nt_rootkit_create_close(PDEVICE_OBJECT driver_obj, PIRP irp);
 {
+        return status;
 }
 
-NTSTATUS nt_rootkit_ioctl(PDEVICE_OBJECT driver_obj)
+NTSTATUS nt_rootkit_read(PDEVICE_OBJECT driver_obj)
 {
+        return status;
+}
+
+NTSTATUS nt_rootkit_write(PDEVICE_OBJECT driver_obj)
+{
+        return status;
 }
