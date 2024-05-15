@@ -24,8 +24,7 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT driver_obj, PUNICODE_STRING reg_path)
         driver_obj->MajorFunction[IRP_MJ_CREATE] =
                 driver_obj->MajorFunction[IRP_MJ_CLOSE] =
                 nt_rootkit_create_close;
-        driver_obj->MajorFunction[IRP_MJ_READ] = nt_rootkit_read;
-        driver_obj->MajorFunction[IRP_MJ_WRITE] = nt_rootkit_write;
+        driver_obj->MajorFunction[IRP_MJ_DEVICE_CONTROL] = nt_rootkit_ioctl;
 
         UNICODE_STRING dev_name = RTL_CONSTANT_STRING(L"\\Device\\nt_rootkit");
         UNICODE_STRING sym_link = RTL_CONSTANT_STRING(L"\\?\\nt_rootkit");
