@@ -43,8 +43,8 @@ NTSTATUS on_reg_notify(PVOID CallbackContext, PVOID Argument1, PVOID Argument2)
 
                 for (LIST_ENTRY* i = lock_key_list; i != lock_key_list; ++i) {
                         PLIST_ENTRY entry = RemoveHeadList(lock_key_list);
-                        lock_key_entry* info = CONTAINING_RECORD(entry,
-                                lock_key_entry, key);
+                        lock_key_entry* info = CONTAINING_RECORD(
+                                entry, lock_key_entry, key);
                         PCWSTR k_name = (PCWSTR)info->key;
 
                         UNICODE_STRING cmp_name;
