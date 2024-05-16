@@ -11,7 +11,7 @@
 #include "lock_key.h"
 
 UNICODE_STRING DEV_NAME = RTL_CONSTANT_STRING(L"\\Device\\nt_rootkit");
-UNICODE_STRING SYM_LINK = RTL_CONSTANT_STRING(L"\\?\\nt_rootkit");
+UNICODE_STRING SYM_LINK = RTL_CONSTANT_STRING(L"\\??\\nt_rootkit");
 
 void driver_unload(PDRIVER_OBJECT driver_obj)
 {
