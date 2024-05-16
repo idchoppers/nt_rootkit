@@ -13,11 +13,7 @@
 UNICODE_STRING DEV_NAME = RTL_CONSTANT_STRING(L"\\Device\\nt_rootkit");
 UNICODE_STRING SYM_LINK = RTL_CONSTANT_STRING(L"\\??\\nt_rootkit");
 
-void driver_unload(PDRIVER_OBJECT driver_obj)
-{
-        IoDeleteDevice(driver_obj->DeviceObject);
-        IoDeleteSymbolicLink(&SYM_LINK);
-}
+void driver_unload(PDRIVER_OBJECT driver_obj);
 
 NTSTATUS DriverEntry(PDRIVER_OBJECT driver_obj, PUNICODE_STRING reg_path)
 {
@@ -50,4 +46,10 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT driver_obj, PUNICODE_STRING reg_path)
         }
 
         return status;
+}
+
+void driver_unload(PDRIVER_OBJECT driver_obj)
+{
+        IoDeleteDevice(driver_obj->DeviceObject);
+        IoDeleteSymbolicLink(&SYM_LINK);
 }
