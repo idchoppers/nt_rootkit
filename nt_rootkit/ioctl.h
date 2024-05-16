@@ -12,7 +12,7 @@
 #include "lock_proc.h"
 #include "lock_key.h"
 
-#define DRIVER_PREFIX       (0x1337)
+#define DRIVER_PREFIX       "nt_rootkit: "
 
 #define IO_HIDE_PROC        CTL_CODE(FILE_DEVICE_UNKNOWN, 0x2890, METHOD_BUFFERED, FILE_ANY_ACCESS)
 #define IO_PID_PROC         CTL_CODE(FILE_DEVICE_UNKNOWN, 0x2891, METHOD_BUFFERED, FILE_ANY_ACCESS)

