@@ -13,8 +13,8 @@
 #define PROC_LINKS_OFFSET       (0x448)
 #define TOKEN_OFFSET            (0x4b8)
 
-NTSTATUS proc_unlink(UINT32 pid);
+NTSTATUS proc_unlink(PUINT32 procid);
 
-NTSTATUS proc_set_pid(UINT32 pid);
+NTSTATUS proc_set_pid(PUINT32 procid);
 
 #endif

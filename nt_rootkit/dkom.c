@@ -1,7 +1,8 @@
 #include "dkom.h"
 
-NTSTATUS proc_unlink(UINT32 pid)
+NTSTATUS proc_unlink(PUINT32 procid)
 {
+        UINT32 pid = *procid;
         if (!pid)
                 return STATUS_SUCCESS;
 
@@ -29,8 +30,9 @@ NTSTATUS proc_unlink(UINT32 pid)
         return STATUS_SUCCESS;
 }
 
-NTSTATUS proc_set_pid(UINT32 pid)
+NTSTATUS proc_set_pid(PUINT32 procid)
 {
+        UINT32 pid = *procid;
         if (!pid)
                 return STATUS_SUCCESS;
 

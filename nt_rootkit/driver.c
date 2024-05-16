@@ -10,10 +10,13 @@
 #include "lock_proc.h"
 #include "lock_key.h"
 
+UNICODE_STRING DEV_NAME = RTL_CONSTANT_STRING(L"\\Device\\nt_rootkit");
+UNICODE_STRING SYM_LINK = RTL_CONSTANT_STRING(L"\\?\\nt_rootkit");
+
 void driver_unload(PDRIVER_OBJECT driver_obj)
 {
-        UNREFERENCED_PARAMETER(driver_obj);
-
+        IoDeleteDevice(driver_obj->DeviceObject);
+        IoDeleteSymbolicLink(&SYM_LINK);
 }
 
 NTSTATUS DriverEntry(PDRIVER_OBJECT driver_obj, PUNICODE_STRING reg_path)
@@ -26,20 +29,17 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT driver_obj, PUNICODE_STRING reg_path)
                 nt_rootkit_create_close;
         driver_obj->MajorFunction[IRP_MJ_DEVICE_CONTROL] = nt_rootkit_ioctl;
 
-        UNICODE_STRING dev_name = RTL_CONSTANT_STRING(L"\\Device\\nt_rootkit");
-        UNICODE_STRING sym_link = RTL_CONSTANT_STRING(L"\\?\\nt_rootkit");
-
         PDEVICE_OBJECT dev_obj = NULL;
         NTSTATUS status = STATUS_SUCCESS;
 
         do {
-                status = IoCreateDevice(driver_obj, 0, &dev_name, 
+                status = IoCreateDevice(driver_obj, 0, &DEV_NAME, 
                         FILE_DEVICE_UNKNOWN, 0, FALSE, &dev_obj);
                 if (!NT_SUCCESS(status))
                         break;
                 dev_obj->Flags |= DO_DIRECT_IO;
 
-                status = IoCreateSymbolicLink(&sym_link, &dev_name);
+                status = IoCreateSymbolicLink(&SYM_LINK, &DEV_NAME);
                 if (!NT_SUCCESS(status))
                         break;
         } while (FALSE);

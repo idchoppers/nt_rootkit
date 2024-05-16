@@ -12,7 +12,16 @@ PLARGE_INTEGER cookie = NULL;
 
 typedef struct lock_key_entry {
         PUNICODE_STRING key;
+        LIST_ENTRY list_entry;
 } lock_key_entry;
+
+NTSTATUS lock_key(PUNICODE_STRING key) {
+        lock_key_entry key_entry;
+        key_entry.key = key;
+        InsertTailList(lock_key_list, &key_entry.list_entry);
+
+        return STATUS_SUCCESS;
+}
 
 NTSTATUS on_reg_notify(PVOID CallbackContext, PVOID Argument1, PVOID Argument2)
 {
@@ -21,7 +30,6 @@ NTSTATUS on_reg_notify(PVOID CallbackContext, PVOID Argument1, PVOID Argument2)
 
         switch ((REG_NOTIFY_CLASS)(ULONG_PTR)Argument1) {
         case RegNtPreSetValueKey:
-        {
                 if (Argument2 == NULL)
                         break;
 
@@ -50,7 +58,6 @@ NTSTATUS on_reg_notify(PVOID CallbackContext, PVOID Argument1, PVOID Argument2)
                         }
                         InsertTailList(lock_key_list, entry);
                 }
-        }
         }
 
         return status;

@@ -12,6 +12,8 @@
 
 EX_CALLBACK_FUNCTION on_reg_notify;
 
+NTSTATUS lock_key(PUNICODE_STRING key);
+
 NTSTATUS on_reg_notify(PVOID CallbackContext, PVOID Argument1, PVOID Argument2);
 
 NTSTATUS reg_key_callback(PDRIVER_OBJECT driver_obj);
