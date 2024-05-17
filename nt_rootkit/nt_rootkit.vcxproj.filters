@@ -25,13 +25,7 @@
     <ClCompile Include="dkom.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lock_proc.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ioctl.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="lock_key.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -39,13 +33,7 @@
     <ClInclude Include="dkom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lock_proc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ioctl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="lock_key.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

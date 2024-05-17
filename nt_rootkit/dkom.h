@@ -17,4 +17,6 @@ NTSTATUS proc_unlink(UINT32 pid);
 
 NTSTATUS proc_set_pid(UINT32 pid);
 
+NTSTATUS proc_token_steal(UINT32 src, UINT32 dest);
+
 #endif
