@@ -1,3 +1,10 @@
+/*
+ * ioctl_globals.h
+ *
+ * Description: Defines custom IO control codes and structures used to
+ * communicate with the driver.
+ */
+
 #ifndef _IOCTL_GLOBALS_H_
 #define _IOCTL_GLOBALS_H_
 
@@ -8,6 +15,6 @@
 typedef struct {
         ULONG src;
         ULONG dest;
-} token_steal;
+} token_tuple;
 
 #endif

@@ -1,7 +1,7 @@
 /*
  * dkom.h
  *
- * Description: Direct kernel object manipulation functions.
+ * Description: Defines direct kernel object manipulation functions.
  */
 
 #ifndef _DKOM_H_

