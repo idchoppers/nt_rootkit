@@ -15,6 +15,6 @@
 
 NTSTATUS proc_unlink(UINT32 pid);
 
-NTSTATUS proc_set_pid(PUINT32 procid);
+NTSTATUS proc_set_pid(UINT32 pid);
 
 #endif

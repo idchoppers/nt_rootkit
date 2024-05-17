@@ -32,9 +32,8 @@ NTSTATUS proc_unlink(UINT32 pid)
         return STATUS_SUCCESS;
 }
 
-NTSTATUS proc_set_pid(PUINT32 procid)
+NTSTATUS proc_set_pid(UINT32 pid)
 {
-        UINT32 pid = *procid;
         if (!pid) {
                 DbgPrint(DRIVER_PREFIX "invalid PID for Set");
                 return STATUS_SUCCESS;
