@@ -12,3 +12,6 @@ Then start it with
 sc.exe start "serviceName"
 
 To interact with the driver, compile and run the provided user client.
+
+Copyright 2024 Kyle Smith
+Licensed under GPL-3.0-or-later
