@@ -2,6 +2,9 @@
  * ioctl.c
  *
  * Description: Implements custom IRP and driver object controls.
+ *
+ * Copyright 2024 Kyle Smith
+ * Licensed under GPL-3.0-or-later
  */
 
 #include <ntddk.h>
