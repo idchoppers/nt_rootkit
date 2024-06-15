@@ -3,6 +3,9 @@
  *
  * Description: Implementation of a simple user mode client for communicating
  * with the rootkit.
+ *
+ * Copyright 2024 Kyle Smith
+ * Licensed under GPL-3.0-or-later
  */
 
 #include <stdio.h>
