@@ -2,6 +2,9 @@
  * driver.c
  * 
  * Description: Rootkit load/unload.
+ *
+ * Copyright 2024 Kyle Smith
+ * Licensed under GPL-3.0-or-later
  */
 
 #include <ntddk.h>
