@@ -2,6 +2,9 @@
  * dkom.c
  *
  * Description: Implements direct kernel object manipulation functions.
+ *
+ * Copyright 2024 Kyle Smith
+ * Licensed under GPL-3.0-or-later
  */
 
 #include "dkom.h"
