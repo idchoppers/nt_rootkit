@@ -2,6 +2,9 @@
  * dkom.h
  *
  * Description: Defines direct kernel object manipulation functions.
+ *
+ * Copyright 2024 Kyle Smith
+ * Licensed under GPL-3.0-or-later
  */
 
 #ifndef _DKOM_H_
