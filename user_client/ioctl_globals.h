@@ -3,6 +3,9 @@
  *
  * Description: Defines custom IO control codes and structures used to
  * communicate with the driver.
+ *
+ * Copyright 2024 Kyle Smith
+ * Licensed under GPL-3.0-or-later
  */
 
 #ifndef _IOCTL_GLOBALS_H_
