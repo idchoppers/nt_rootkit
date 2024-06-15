@@ -2,6 +2,9 @@
  * ioctl.h
  *
  * Description: Defines custom IRP and driver object controls.
+ *
+ * Copyright 2024 Kyle Smith
+ * Licensed under GPL-3.0-or-later
  */
 
 #ifndef _IOCTL_H_
