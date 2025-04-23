@@ -12,8 +12,7 @@
 #include <Windows.h>
 #include "ioctl_globals.h"
 
-int main(int argc, char* argv[], char* envp[])
-{
+int main(int argc, char* argv[], char* envp[]) {
         if (argc == 1) {
                 printf("\"user_client.exe ?\" for help\n");
                 return -1;
