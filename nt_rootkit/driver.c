@@ -16,8 +16,7 @@ UNICODE_STRING SYM_LINK = RTL_CONSTANT_STRING(L"\\??\\nt_rootkit");
 
 void driver_unload(PDRIVER_OBJECT driver_obj);
 
-NTSTATUS DriverEntry(PDRIVER_OBJECT driver_obj, PUNICODE_STRING reg_path)
-{
+NTSTATUS DriverEntry(PDRIVER_OBJECT driver_obj, PUNICODE_STRING reg_path) {
         UNREFERENCED_PARAMETER(reg_path);
         DbgPrint(DRIVER_PREFIX "entry");
 
@@ -56,8 +55,7 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT driver_obj, PUNICODE_STRING reg_path)
         return status;
 }
 
-void driver_unload(PDRIVER_OBJECT driver_obj)
-{
+void driver_unload(PDRIVER_OBJECT driver_obj) {
         IoDeleteDevice(driver_obj->DeviceObject);
         IoDeleteSymbolicLink(&SYM_LINK);
         DbgPrint(DRIVER_PREFIX "exit");
