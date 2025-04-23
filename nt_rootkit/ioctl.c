@@ -10,8 +10,7 @@
 #include <ntddk.h>
 #include "ioctl.h"
 
-NTSTATUS nt_rootkit_create_close(PDEVICE_OBJECT dev_obj, PIRP irp)
-{
+NTSTATUS nt_rootkit_create_close(PDEVICE_OBJECT dev_obj, PIRP irp) {
         UNREFERENCED_PARAMETER(dev_obj);
         PIO_STACK_LOCATION io_stack = NULL;
 
@@ -33,8 +32,7 @@ NTSTATUS nt_rootkit_create_close(PDEVICE_OBJECT dev_obj, PIRP irp)
         return STATUS_SUCCESS;
 }
 
-NTSTATUS nt_rootkit_ioctl(PDEVICE_OBJECT dev_obj, PIRP irp) 
-{
+NTSTATUS nt_rootkit_ioctl(PDEVICE_OBJECT dev_obj, PIRP irp) {
         UNREFERENCED_PARAMETER(dev_obj);
         PIO_STACK_LOCATION io_stack = NULL;
         CHAR* response = "nt_rootkit: handled custom ioctl";
